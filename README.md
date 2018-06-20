@@ -9,3 +9,4 @@ This is dumb.
 - **Current font textures are not the same as the ones I have in my dev install** (not sure which are the right ones)
 - We're replacing them after mipmapping anyway
 - To use, put all lines in an `input.txt` in working directory, `line%d.png` files will be generated.
+- Pipe character (`|`) designates tips - in `|Foo| bar`, Foo will be tip colored.

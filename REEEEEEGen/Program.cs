@@ -44,21 +44,33 @@ namespace REEEEEEGen
             fontOutlineGraphics.DrawImage(fontOutlineA, new Point(0, 0));
             fontOutlineGraphics.DrawImage(fontOutlineB, new Point(0, fontOutlineA.Height));
 
-            float[][] colorMatrixElements = {
+            float[][] blackColorMatrixElements = {
                new float[] {0,  0,  0,  0, 0},
                new float[] {0,  0,  0,  0, 0},
                new float[] {0,  0,  0,  0, 0},
                new float[] {0,  0,  0,  1, 0},
                new float[] {0, 0, 0, 0, 1}};
-
-            ColorMatrix colorMatrix = new ColorMatrix(colorMatrixElements);
+            ColorMatrix blackColorMatrix = new ColorMatrix(blackColorMatrixElements);
+            float[][] tipColorMatrixElements = {
+               new float[] {0.5f,  0,  0,  0, 0},
+               new float[] {0,  1,  0,  0, 0},
+               new float[] {0,  0,  1,  0, 0},
+               new float[] {0,  0,  0,  1, 0},
+               new float[] {0, 0, 0, 0, 1}};
+            ColorMatrix tipColorMatrix = new ColorMatrix(tipColorMatrixElements);
 
             var outlineAttrs = new ImageAttributes();
-            var fontAttrs = new ImageAttributes();
+            var normalFontAttrs = new ImageAttributes();
+            var tipFontAttrs = new ImageAttributes();
             outlineAttrs.SetColorMatrix(
-               colorMatrix,
+               blackColorMatrix,
                ColorMatrixFlag.Default,
                ColorAdjustType.Bitmap);
+            tipFontAttrs.SetColorMatrix(
+                tipColorMatrix,
+                ColorMatrixFlag.Default,
+                ColorAdjustType.Bitmap
+                );
 
             int lineId = 0;
             string line;
@@ -70,9 +82,11 @@ namespace REEEEEEGen
                 int totalHeight = 72;
                 int curX = 16;
                 int curY = 10;
+                bool isTipMode = false;
 
                 foreach (char c in line)
                 {
+                    if (c == '|') continue;
                     ushort charId = (ushort)(charset.EncodeCharacter(c) & 0x7FFF);
                     totalWidth += (int)Math.Round(Assets.widths[charId] * scaleFactor);
                 }
@@ -83,6 +97,12 @@ namespace REEEEEEGen
 
                 foreach (char c in line)
                 {
+                    if (c == '|')
+                    {
+                        isTipMode = !isTipMode;
+                        continue;
+                    }
+
                     ushort charId = (ushort)(charset.EncodeCharacter(c) & 0x7FFF);
                     int row = charId / colCount;
                     int col = charId % colCount;
@@ -119,7 +139,7 @@ namespace REEEEEEGen
                         (int)(cellWidth * scaleFactor),
                         (int)(cellHeight * scaleFactor),
                         GraphicsUnit.Pixel,
-                        fontAttrs);
+                        isTipMode ? tipFontAttrs : normalFontAttrs);
 
                     curX += glyphWidth;
                 }
