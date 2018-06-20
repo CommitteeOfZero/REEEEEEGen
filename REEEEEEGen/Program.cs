@@ -52,7 +52,7 @@ namespace REEEEEEGen
                new float[] {0, 0, 0, 0, 1}};
             ColorMatrix blackColorMatrix = new ColorMatrix(blackColorMatrixElements);
             float[][] tipColorMatrixElements = {
-               new float[] {0.5f,  0,  0,  0, 0},
+               new float[] {144.0f/255.0f,  0,  0,  0, 0},
                new float[] {0,  1,  0,  0, 0},
                new float[] {0,  0,  1,  0, 0},
                new float[] {0,  0,  0,  1, 0},
