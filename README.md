@@ -1,6 +1,6 @@
 # REEEEEEGen
 
-This is dumb.
+This is a dumb tool to generate images that look like dialogue text displayed by our MAGES engine patches, used to "subtitle" certain lines that are only spoken, usually not associated with dialogue text, in CHAOS;CHILD.
 
 - Cell sizes and padding are hardcoded
 - Charset is C;C from SciAdv.Net, same build we use for sc3tools in cc-patch
